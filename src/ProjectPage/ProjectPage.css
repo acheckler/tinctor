@@ -1,0 +1,32 @@
+li {
+    list-style: none;
+    padding: 0;
+}
+
+ol {
+    padding-inline-start: 1em;
+}
+
+.project-page-container{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content:center;
+    align-content:center;
+    font-weight: 400;
+  letter-spacing: 1px;
+  
+}
+
+.project-breakdown {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background-color: rgba(245, 240, 235, 0.65);
+    border-radius:8px;box-shadow:0 0 40px -10px #000;
+}
+
+.project-name {
+    margin-top: 1em;
+}
