@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Route, Link, Switch } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-
 import dummyStore from "../dummy-store";
 import AddProject from "../AddProject/AddProject";
 import ApiContext from "../ApiContext";
@@ -49,7 +47,7 @@ class App extends Component {
           <header className="App_header">
             
             <h1 className="App_header_box">
-              <Link exact to="/" className="header_link">Tinctor</Link> <FontAwesomeIcon icon="calculator" />
+              <Link to="/" className="header_link">Tinctor</Link> <FontAwesomeIcon icon="calculator" />
             </h1>
           </header>
           <div className="nav-buttons">
