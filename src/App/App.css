@@ -10,7 +10,10 @@
       left: 0px;
       opacity: 0.75;
 } */
-
+a {
+  text-decoration: none;
+  color: black;
+}
 .App {
   position: relative; 
     height: 100vh;

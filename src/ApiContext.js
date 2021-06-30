@@ -6,6 +6,11 @@ export default React.createContext({
     flavors: [],
     bottles: [],
     droppers: [],
-    projects: []
+    projects: [],
+    projectsDisplay: [],
+    ingredients: [],
+    packaging: [],
+    addProject: () => {},
+    deleteProject: () => {},
     // calculateCost: () => {}
 })

@@ -1,25 +1,55 @@
 import React, { Component } from "react";
 import ApiContext from "../ApiContext";
-import './ProjectPage.css'
+import "./ProjectPage.css";
+import config from "../config";
 
 class ProjectPage extends Component {
-    static contextType = ApiContext;
-    render() {
-        const {projects=[]} = this.context
-        console.log(this.context.projects)
-        return(
-            <div className="project-page-container">
-        <ol className="project-breakdown">
-        <h2>{projects.map(project =>
-                <li key={project.name} className="project-name">{project.name}</li>
-                )}</h2>
-                {projects.map(project =>
-                <li key={project.totalCPU}>Price per unit: ${project.totalCPU}</li>
-                )}
-        </ol>
-        </div>
-        )
-    }
+  static contextType = ApiContext;
+
+  handleDeleteClick = (e) => {
+    e.preventDefault();
+    const id = this.props.location.state.projectId;
+    console.log(id, "from delete func");
+
+    fetch(`${config.API_ENDPOINT}/projects/${id}`, {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => {
+        this.context.deleteProject(id);
+        if (!res.ok) return res.json().then((e) => Promise.reject(e));
+      })
+      .catch((error) => {
+        console.error({ error });
+      });
+    this.props.history.push("/");
+  };
+
+  render() {
+    const project = this.props.location.state.project;
+    return (
+      <div>
+        {project.map((p) => (
+          <div className="project-page-container">
+            <li>{p.id}</li>
+            <li>{p.name}</li>
+            <li>{p.cannaId}</li>
+            <li></li>
+            <button
+              className="delete-btn"
+              type="button"
+              onClick={(e) => this.handleDeleteClick(e)}
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+      </div>
+    );
+  }
 }
 
-export default ProjectPage
+export default ProjectPage;
+
