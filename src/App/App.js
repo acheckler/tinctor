@@ -95,7 +95,6 @@ class App extends Component {
       projects: this.state.projects.filter((project) => project.id !== id),
     })
 
-   console.log('setState ran')
     this.fetchData()
   }
 

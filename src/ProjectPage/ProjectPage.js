@@ -9,7 +9,6 @@ class ProjectPage extends Component {
   handleDeleteClick = (e) => {
     e.preventDefault();
     const id = this.props.location.state.projectId;
-    console.log(id, "from delete func");
 
     fetch(`${config.API_ENDPOINT}/projects/${id}`, {
       method: "DELETE",
