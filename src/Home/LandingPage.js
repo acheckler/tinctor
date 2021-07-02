@@ -6,12 +6,8 @@ import "./LandingPage.css";
 class LandingPage extends Component {
   static contextType = ApiContext;
 
-  getProject(projectId) {
-    this.context.projectsDisplay.filter((project) => project.id === projectId);
-  }
-
   render() {
-    const { projects = [] } = this.context;
+    const { projectsDisplay = [] } = this.context;
     return (
       <div className="lp-container">
         <div className="app-intro">
@@ -28,12 +24,12 @@ class LandingPage extends Component {
         <div className="lp-container2">
           <h2>Projects:</h2>
           <ol className="project_list">
-            {projects.map((project) => (
+            {projectsDisplay.map((project) => (
               <li key={project.id}>
                 <Link
                   to={{
                     pathname: `/projects/${project.name}`,
-                    state: { project: [project], projectId: project.id },
+                    state: { project: [project], projectObj: project, projectId: project.id },
                   }}
                 >
                   {project.name}

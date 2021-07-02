@@ -12,14 +12,16 @@ class AddProject extends Component {
   state = {
     totalCPU: "",
     button: 0,
-    showing: false
+    showing: false,
   };
 
+
+
+  //functions to grab values from drop down menus & set their state
   selectCannabinoid = (e) => {
     const cann = JSON.parse(e.target.value);
     const cannId = cann.id;
     const cannPrice = cann.ppg;
-    console.log(cannId, cannPrice);
 
     this.setState({
       cann,
@@ -70,10 +72,12 @@ class AddProject extends Component {
     });
   };
 
+
+
+  // grabbing values from inputs, send to calculate cost and/or save project button
   handleSubmit(event) {
     event.preventDefault();
-    if (this.state.button === 1) {
-    }
+
     const projectName = event.target.name.value;
     const tincVolume = parseFloat(event.target.tinctureVolume.value);
     const cannaConcentration = parseFloat(
@@ -84,7 +88,7 @@ class AddProject extends Component {
     const carrierCost = tincVolume * this.state.carrPrice;
     const packagingCost = this.state.bottleCpu + this.state.dropperCpu;
     const totalCost = cannaCost + carrierCost + packagingCost;
-    const fixedCost = Number.parseFloat(totalCost).toFixed(2)
+    const fixedCost = Number.parseFloat(totalCost).toFixed(2);
 
     const formData = {
       name: projectName,
@@ -98,11 +102,13 @@ class AddProject extends Component {
       dropper: this.state.dropperId,
       cpu: fixedCost,
     };
-    console.log(totalCost, "from cost function");
+
+    //calculate cost button
     if (this.state.button === 1) {
       this.setState({ totalCPU: fixedCost });
     }
 
+    //save project button
     if (this.state.button === 2) {
       this.context.addProject(formData, totalCost);
       this.props.history.push(`/`);
@@ -111,30 +117,28 @@ class AddProject extends Component {
 
   render() {
     const DisplayCost = () => (
-      <p className="total-cost">
-         $ {this.state.totalCPU}
-      </p>
-    )
-    const {
-      ingredients = [],
-      packaging = [],
-    } = this.context;
+      <p className="total-cost">$ {this.state.totalCPU}</p>
+    );
+    const { ingredients = [], packaging = [] } = this.context;
     return (
       <div className="form-container">
         <form className="addProject" onSubmit={(e) => this.handleSubmit(e)}>
           <ol className="projectForm">
+            {/* project name */}
             <h2>Add A New Project</h2>
-
             <li className="project-name">
               <label htmlFor="name">Project name:</label>
               <input type="text" className="projectName" name="name" required />
             </li>
 
+            {/* tincture volume */}
             <li className="tinc-vol">
               <label htmlFor="tinctureVolume">Tincture Volume:</label>
               <input type="number" name="tinctureVolume" required />{" "}
               <label className="mg">mL</label>
             </li>
+
+            {/* select a cannabinoid */}
             <li className="canna-select">
               <select
                 name="cannabinoids"
@@ -156,6 +160,7 @@ class AddProject extends Component {
               </select>
             </li>
 
+            {/* cannabinoid concentration */}
             <li className="canna-concentration">
               <label htmlFor="cannaConcentration">
                 Cannabinoid Concentration:
@@ -163,6 +168,8 @@ class AddProject extends Component {
               <input type="number" name="cannaConcentration" required />{" "}
               <label className="mg">mg per mL</label>
             </li>
+
+            {/* select a carrier oil */}
             <li className="carrier-oils">
               <select
                 name="carrier_oils"
@@ -183,11 +190,15 @@ class AddProject extends Component {
                   ))}
               </select>
             </li>
+
+            {/* carrier percentage */}
             <li className="carrier-concentration">
               <label htmlFor="carrierConcentration">Carrier Percentage:</label>
               <input type="number" name="carrierConcentration" required />
               <label className="mg">%</label>
             </li>
+
+            {/* select a flavor */}
             <li className="flavor-type">
               <select
                 name="flavors"
@@ -208,6 +219,8 @@ class AddProject extends Component {
                   ))}
               </select>
             </li>
+
+            {/* select a bottle */}
             <li className="bottle-type">
               <select
                 name="bottleType"
@@ -225,6 +238,8 @@ class AddProject extends Component {
                   ))}
               </select>
             </li>
+
+            {/* select a dropper */}
             <li className="dropper-type">
               <select
                 name="dropper"
@@ -242,8 +257,10 @@ class AddProject extends Component {
                   ))}
               </select>
             </li>
+
+            {/* calculate cost button + display cost element */}
             <li className="total-cost">
-              { this.state.showing ? <DisplayCost /> : null }
+              {this.state.showing ? <DisplayCost /> : null}
             </li>
             <li>
               <button
@@ -255,10 +272,12 @@ class AddProject extends Component {
                 Calculate Cost Per Unit
               </button>
             </li>
+
+            {/* save project button */}
             <li className="save-button">
               <button
                 type="submit"
-                className="save-project-button"
+                className="save-project-btn"
                 name="save-project"
                 onClick={(e) => this.setState({ button: 2 })}
               >
@@ -272,5 +291,3 @@ class AddProject extends Component {
   }
 }
 export default AddProject;
-
-

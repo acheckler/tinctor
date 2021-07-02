@@ -9,6 +9,7 @@ import "./App.css";
 import config from "../config";
 import PropTypes from 'prop-types'
 
+
 class App extends Component {
   state = {
     projects: [],
@@ -20,6 +21,7 @@ class App extends Component {
     history: PropTypes.object,
   };
 
+  //function for componentDidMount
   fetchData = () => {
     Promise.all([
       fetch(`${config.API_ENDPOINT}/projects`),
@@ -57,8 +59,9 @@ class App extends Component {
     this.fetchData();
   }
 
-  handleAddProject = (formData, totalCpu) => {
 
+  //POST function for adding projects
+  handleAddProject = (formData) => {
     const options = {
       method: "POST",
       headers: {
@@ -77,8 +80,6 @@ class App extends Component {
         total_cpu: formData.cpu
       }),
     };
-
-  
     fetch(`${config.API_ENDPOINT}/projects`, options)
          .then((projectsRes) => {
         if (!projectsRes.ok) {
@@ -90,14 +91,15 @@ class App extends Component {
       .catch((error) => console.log(error));
   };
 
+
+  //set state & fetchData after delete function runs in ProjectPage component
   handleDeleteProject = (id) => {
     this.setState({
       projects: this.state.projects.filter((project) => project.id !== id),
     })
-
-   console.log('setState ran')
     this.fetchData()
   }
+
 
   render() {
     const value = {

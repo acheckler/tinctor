@@ -10,6 +10,10 @@
       left: 0px;
       opacity: 0.75;
 } */
+
+* {
+  font-family: 'Montserrat', sans-serif;
+}
 a {
   text-decoration: none;
   color: black;

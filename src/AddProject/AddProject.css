@@ -45,7 +45,7 @@ select, input[type='text'], input[type='number'] {
 }
 
 
-button {
+.calculate-btn, .save-project-btn {
     margin: 5px;
     background: none;
     border: solid 2px #474544;
