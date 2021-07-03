@@ -230,7 +230,7 @@ class AddProject extends Component {
               >
                 <option value="">Choose a bottle:</option>
                 {packaging
-                  .filter((item) => item.category === "bottle")
+                  .filter((item) => item.category === "bottles")
                   .map((item) => (
                     <option key={item.id} value={JSON.stringify(item)}>
                       {item.name}
@@ -249,7 +249,7 @@ class AddProject extends Component {
               >
                 <option value="">Choose a dropper:</option>
                 {packaging
-                  .filter((item) => item.category === "dropper")
+                  .filter((item) => item.category === "droppers")
                   .map((item) => (
                     <option key={item.id} value={JSON.stringify(item)}>
                       {item.name}
