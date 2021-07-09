@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { Route, Link, Switch } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddProject from "../AddProject/AddProject";
 import ApiContext from "../ApiContext";
 import LandingPage from "../Home/LandingPage";
 import ProjectPage from "../ProjectPage/ProjectPage";
 import "./App.css";
 import config from "../config";
-import PropTypes from 'prop-types'
 
 
 class App extends Component {
@@ -17,9 +15,7 @@ class App extends Component {
     ingredients: [],
     packaging: [],
   };
-  static propTypes = {
-    history: PropTypes.object,
-  };
+
 
   //function for componentDidMount
   fetchData = () => {
@@ -59,39 +55,6 @@ class App extends Component {
     this.fetchData();
   }
 
-
-  //POST function for adding projects
-  handleAddProject = (formData) => {
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: formData.name,
-        t_volume: formData.tVol,
-        canna_id: formData.canna,
-        canna_concentration: formData.cCon,
-        carrier_id: formData.carr,
-        carrier_percentage: formData.carrP,
-        flavor_id: formData.flav,
-        bottle_id: formData.bottle,
-        dropper_id: formData.dropper,
-        total_cpu: formData.cpu
-      }),
-    };
-    fetch(`${config.API_ENDPOINT}/projects`, options)
-         .then((projectsRes) => {
-        if (!projectsRes.ok) {
-          throw new Error("error");
-        }
-        return projectsRes.json();
-      })
-      .then(() => {this.fetchData()})
-      .catch((error) => console.log(error));
-  };
-
-
   //set state & fetchData after delete function runs in ProjectPage component
   handleDeleteProject = (id) => {
     this.setState({
@@ -107,7 +70,7 @@ class App extends Component {
       projectsDisplay: this.state.projectsDisplay,
       ingredients: this.state.ingredients,
       packaging: this.state.packaging,
-      addProject: this.handleAddProject,
+      fetchData: this.fetchData,
       deleteProject: this.handleDeleteProject
     };
 
@@ -118,8 +81,10 @@ class App extends Component {
             <h1 className="App_header_box">
               <Link to="/" className="header_link">
                 Tinctor
+                <img src ="/tinctor.png" alt="dropper icon" className="dropper-icon"></img>
               </Link>{" "}
-              <FontAwesomeIcon icon="calculator" />
+              {/* <img src ="/dropper3.png" alt="dropper icon" className="dropper-icon"></img> */}
+              {/* <FontAwesomeIcon icon="calculator" /> */}
             </h1>
           </header>
           <div className="nav-buttons">

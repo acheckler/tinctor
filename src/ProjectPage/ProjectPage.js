@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ApiContext from "../ApiContext";
 import "./ProjectPage.css";
 import config from "../config";
-import { PieChart, Pie, Legend, Tooltip, Cell } from "recharts";
+import { PieChart, Pie, Legend, Tooltip, Cell, ResponsiveContainer } from "recharts";
 
 class ProjectPage extends Component {
   static contextType = ApiContext;
@@ -28,12 +28,14 @@ class ProjectPage extends Component {
     this.props.history.push("/");
   };
 
+
   render() {
     const project = this.props.location.state.project;
     const p = this.props.location.state.projectObj;
+    console.log(this.props)
     
     //for pie chart
-    const COLORS = ["#344E41", "#3A5A40", "#588157", "#A3B18A", "#90a955"];
+    const COLORS = ["#34A0A4", "#168AAD", "#52B69A", "#76C893", "#1A759F"];
     const data = [
       { name: p.canna_name, value: parseFloat(p.canna_ppg) },
       { name: p.carrier_name, value: parseFloat(p.carrier_ppg) },
@@ -47,11 +49,13 @@ class ProjectPage extends Component {
         {project.map((p) => (
           <div className="project-breakdown">
             <p className="p-display-title">{p.name}</p>
-            <li key="total-cpu" className="p-display-title">
+            <li key="total-cpu" className="p-cost-display">
               Total cost per unit: ${p.total_cpu}
             </li>
 
-            <p>Cost breakdown:</p>
+            <p className="cb-header">Cost breakdown:</p>
+            <div className="breakdown-lists">
+            <ul className="ingredients-list">
             <li key="ingredients" className="ingredients">
               Ingredients:
             </li>
@@ -64,6 +68,8 @@ class ProjectPage extends Component {
             <li key="flavor">
               {p.flavor_name}: ${p.flavor_ppg}
             </li>
+            </ul>
+            <ul className="packaging-list">
             <li key="packaging" className="packaging">
               Packaging:
             </li>
@@ -73,16 +79,22 @@ class ProjectPage extends Component {
             <li key="dropper">
               {p.dropper_name} dropper: ${p.dropper_cpu}
             </li>
+            </ul>
+            </div>
 
-            <div className="pie-chart">
-              <PieChart width={600} height={300}>
+            {/* <div style={{display: 'grid'}}> */}
+                <ResponsiveContainer width="90%" height="30%" className="pie-container">
+                <PieChart width={this.props.width} height={this.props.height}>
                 <Pie
                   dataKey="value"
                   isAnimationActive={false}
                   data={data}
-                  cx={200}
-                  cy={200}
-                  outerRadius={80}
+                  cx={this.props.width / 2}
+      cy={this.props.height / 2}
+                //   cx={125}
+                //   cy={160}
+                //   outerRadius={80}
+                outerRadius="100%"
                   fill="#8884d8"
                 >
                   {data.map((entry, index) => (
@@ -94,13 +106,15 @@ class ProjectPage extends Component {
                 </Pie>
 
                 <Legend
-                  verticalAlign="right"
-                  align="center"
+                // wrapperStyle={{ position: 'relative' }}
+                  verticalAlign="middle"
+                  align="right"
                   layout="vertical"
                 />
                 <Tooltip />
               </PieChart>
-            </div>
+              </ResponsiveContainer>
+            {/* </div> */}
             <button
               className="delete-btn"
               type="button"
@@ -112,7 +126,9 @@ class ProjectPage extends Component {
         ))}
       </div>
     );
+    
   }
+  
 }
 
 export default ProjectPage;

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ApiContext from "../ApiContext";
 import "./AddProject.css";
 import PropTypes from "prop-types";
+import config from '../config'
 
 class AddProject extends Component {
   static contextType = ApiContext;
@@ -110,10 +111,44 @@ class AddProject extends Component {
 
     //save project button
     if (this.state.button === 2) {
-      this.context.addProject(formData, totalCost);
+      this.handleAddProject(formData, totalCost);
       this.props.history.push(`/`);
     }
   }
+
+  handleAddProject = (formData) => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        t_volume: formData.tVol,
+        canna_id: formData.canna,
+        canna_concentration: formData.cCon,
+        carrier_id: formData.carr,
+        carrier_percentage: formData.carrP,
+        flavor_id: formData.flav,
+        bottle_id: formData.bottle,
+        dropper_id: formData.dropper,
+        total_cpu: formData.cpu
+      }),
+    };
+    fetch(`${config.API_ENDPOINT}/projects`, options)
+         .then((projectsRes) => {
+        if (!projectsRes.ok) {
+          throw new Error("error");
+        }
+        return projectsRes.json();
+      })
+      .then((projectRes) => {
+        this.props.history.push('/')
+        this.context.fetchData()
+        
+      })
+      .catch((error) => console.log(error));
+  };
 
   render() {
     const DisplayCost = () => (
@@ -128,13 +163,13 @@ class AddProject extends Component {
             <h2>Add A New Project</h2>
             <li className="project-name">
               <label htmlFor="name">Project name:</label>
-              <input type="text" className="projectName" name="name" required />
+              <input type="text" id="name"className="projectName" name="name" required />
             </li>
 
             {/* tincture volume */}
             <li className="tinc-vol">
               <label htmlFor="tinctureVolume">Tincture Volume:</label>
-              <input type="number" name="tinctureVolume" required />{" "}
+              <input type="number"  id="tinctureVolume" min="1" max="120" placeholder="4-120"required />{" "}
               <label className="mg">mL</label>
             </li>
 
@@ -165,8 +200,8 @@ class AddProject extends Component {
               <label htmlFor="cannaConcentration">
                 Cannabinoid Concentration:
               </label>
-              <input type="number" name="cannaConcentration" required />{" "}
-              <label className="mg">mg per mL</label>
+              <input type="number" id="cannaConcentration" className="canna-input" min="100" max="6000" placeholder="100-6000" required />{" "}
+              <label className="mg">mg per oz</label>
             </li>
 
             {/* select a carrier oil */}
@@ -194,7 +229,7 @@ class AddProject extends Component {
             {/* carrier percentage */}
             <li className="carrier-concentration">
               <label htmlFor="carrierConcentration">Carrier Percentage:</label>
-              <input type="number" name="carrierConcentration" required />
+              <input type="number" id="carrierConcentration" min="1" max="100"placeholder="1-100"required />
               <label className="mg">%</label>
             </li>
 

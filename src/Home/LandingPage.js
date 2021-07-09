@@ -11,7 +11,7 @@ class LandingPage extends Component {
     return (
       <div className="lp-container">
         <div className="app-intro">
-          <h2>Welcome to Tinctor!</h2>
+          <h2 className="lp-h2">Welcome to Tinctor!</h2>
           <p className="p-intro">
             Originally built for 'BATCH by Wisconsin Hemp Scientific', Tinctor
             was made to streamline the quotation process with clients. Many
@@ -22,10 +22,10 @@ class LandingPage extends Component {
           </p>
         </div>
         <div className="lp-container2">
-          <h2>Projects:</h2>
+          <h2 className="lp-h2">Projects:</h2>
           <ol className="project_list">
             {projectsDisplay.map((project) => (
-              <li key={project.id}>
+              <li key={project.id} className="project-li">
                 <Link
                   to={{
                     pathname: `/projects/${project.name}`,
